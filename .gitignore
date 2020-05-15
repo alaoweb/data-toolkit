@@ -1,0 +1,11 @@
+.idea
+data/raw/ALAOdata.csv
+data/processed/ALAOdata-clean.csv
+*.csv
+*.xls
+*.xlsx
+*.tsv
+*.txt
+*.odt
+*.ods
+.DS_Store

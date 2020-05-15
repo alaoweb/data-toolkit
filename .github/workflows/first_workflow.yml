@@ -1,0 +1,41 @@
+name: Check Line Length
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: macOS-latest
+    strategy:
+      max-parallel: 3
+      matrix:
+        python-version: [3.5, 3.6, 3.7]
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v1
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pipenv
+        pipenv install
+    - name: Lint with flake8
+      run: |
+        pip install flake8
+        # -------------------------------------------------------------------
+        # stop the build if there are Python syntax errors or undefined names
+        # -------------------------------------------------------------------
+        # http://flake8.pycqa.org/en/latest/user/error-codes.html
+        # https://pycodestyle.readthedocs.io/en/latest/intro.html#error-codes
+        #
+        # F821: undefined name name
+        # F822: undefined name name in __all__
+        # F823: local variable name referenced before assignment
+        # E901: SyntaxError or IndentationError
+        # E999: SyntaxError -- failed to compile a file into an Abstract Syntax Tree
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
+        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
