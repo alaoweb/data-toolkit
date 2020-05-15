@@ -5,7 +5,6 @@ data/processed/ALAOdata-clean.csv
 *.xls
 *.xlsx
 *.tsv
-*.txt
 *.odt
 *.ods
 .DS_Store
